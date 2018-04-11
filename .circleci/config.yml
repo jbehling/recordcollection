@@ -8,24 +8,22 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "recordcollection/requirements.txt" }}
+          - v1-dependencies-{{ checksum "requirements.txt" }}
           - v1-dependencies-
       - run:
           name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            cd recordcollection
             pip install -r requirements.txt
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "recordcollection/requirements.txt" }}
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: run tests
           command: |
             . venv/bin/activate
-            cd recordcollection
             python manage.py test
       - store_artifacts:
           path: test-reports
